@@ -18,12 +18,13 @@
   },
   "homepage": "https://github.com/raulmmorais/knights#readme",
   "dependencies": {
-    "vue": "^2.6.10",
+    "axios": "^0.18.0",
     "gulp": "3.9.1",
     "gulp-concat": "2.6.1",
     "gulp-util": "3.0.8",
     "gulp-watch": "4.3.11",
     "gulp-webserver": "0.9.1",
-    "run-sequence": "2.2.0"
+    "run-sequence": "2.2.0",
+    "vue": "^2.6.10"
   }
 }
