@@ -1,3 +1,5 @@
+var knights = []
+const url = 'http://localhost:3003/api/knights'
 new Vue({
 	el:"#app",
 	data: {
@@ -7,13 +9,27 @@ new Vue({
 	},
 	methods:{
 		listKnights(){
-			this.knightList = getKnights()
+			this.knightList = []
 			this.heroList = []
+			var vm = this
+			axios.get(url).then(function(r){
+				vm.knightList = r.data
+			})
 			//this.knightList.push('knight1', 'knight2', 'knight3')
 		},
 		listHeroes(){
 			this.knightList = []
-			this.heroList = getHeroes()
+			this.heroList = []
+			var vm = this
+			axios.get(url).then(function(r){
+				r.data.forEach(function(i){
+					var born = new Date(i.birthday)
+					var age = calculaIdade(born, new Date())
+					if(age > 7){
+						vm.heroList.push(i)
+					}
+				})
+			})
 			//this.heroList.push('hero1', 'hero2')
 		},
 		addKnight(){
@@ -21,11 +37,7 @@ new Vue({
 		}
 	}
 })
-function getKnights(){
-	knights = ['knight1', 'knight2', 'knight3']
-	return knights
-}
-function getHeroes(){
-	heroes = ['hero1', 'hero2']
-	return heroes
+
+function calculaIdade(nascimento, hoje){
+    return Math.floor(Math.ceil(Math.abs(nascimento.getTime() - hoje.getTime()) / (1000 * 3600 * 24)) / 365.25);
 }

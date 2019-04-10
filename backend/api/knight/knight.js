@@ -3,7 +3,7 @@ const mongoose = restful.mongoose
 
 const weaponsSchema = new mongoose.Schema({
 	name:{type: String, required: true},
-	mod:{type: Number, min: 0, max: 99, required: [true, 'Informe o Modelo']},
+	mod:{type: Number, min: 0, max: 99, required: true},
 	attr:{type: String, required: true},
 	equipped:{type: Boolean, required: true},
 })
@@ -20,10 +20,10 @@ const attributesSchema = new mongoose.Schema({
 const knightSchema = new mongoose.Schema({
 	name:{type: String, required: true},
 	nickname:{type: String, required: true},
-	birthday:{type: Date, required: true},
+	birthday:{type: String, required: true},
 	weapons:[weaponsSchema],
 	attributes: [attributesSchema],
-	keyAttribute: {type: String, required: true}
+	keyAttribute: {type: String}
 })
 
-module.exports = restful.model('Knights', knightSchema)
+module.exports = restful.model('Knight', knightSchema)

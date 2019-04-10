@@ -1,14 +1,14 @@
-const Knights = require('./knight')
-const _ = require('lodash')
+const Knight = require('./knight')
+const _ = require('lodash');
 
-Knights.methods (['get', 'post', 'put', 'delete'])
+Knight.methods(['get', 'post', 'put', 'delete'])
 
-Knights.updateOptions({
+Knight.updateOptions({
   new: true,
   runValidators: true
 })
 
-Knights.after('post', sendErrorOrNext).after('put', sendErrorOrNext)
+Knight.after('post', sendErrorOrNext).after('put', sendErrorOrNext)
 
 function sendErrorOrNext(req, res, next){
   const bundle = res.locals.bundle
@@ -27,8 +27,8 @@ function parseErrors(nodeRestfulErrors){
   return errors
 }
 
-Knights.route('count', function(req, res, next){
-  BillingCycle.count(function(error, value){
+Knight.route('count', function(req, res, next){
+  Knight.count(function(error, value){
     if (error) {
       res.status(500).json({errors:[error]})
     }else {
@@ -36,4 +36,4 @@ Knights.route('count', function(req, res, next){
     }
   })
 })
-module.exports = Knights
+module.exports = Knight
