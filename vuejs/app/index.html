@@ -11,14 +11,37 @@
 			<li><a href="#" v-on:click='listKnights()'>Knigts</a></li>
 			<li><a href="#" v-on:click='listHeroes()'>Heroes</a></li>
 			<li><a href="#" v-on:click='addKnight()'>Add Knight</a></li>
+			<li><a href="#" v-on:click='getKnight()'>Knight</a></li>
 		</ul>
 		<div>
 			<template v-for="Knight in knightList">
-				<h3>{{Knight.name}}</h3>
+				<table>
+					<thead>
+						<th>
+							<td>Nome</td>
+							<td>Idade</td>
+							<td>Armas</td>
+							<td>Atributo</td>
+							<td>Ataque</td>
+							<td>Exp</td>
+						</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{{Knight.name}}</td>
+							<td>Idade</td>
+							<td>{{Knight.weapons.lenght}}</td>
+							<td>{{Knight.keyAttribute}}</td>
+							<td>{{Ataque}}</td>
+							<td>{{Exp}}</td>
+						</tr>
+					</tbody>
+				</table>
 			</template>
 			<template v-for="hero in heroList">
 				<h3>{{hero.name}}</h3>
 			</template>
+			
 		</div>
 			
 	</div>

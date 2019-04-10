@@ -35,6 +35,9 @@ new Vue({
 		addKnight(){
 			console.log("new knight add")
 		}
+		getKnight(id){
+			console.log(id)
+		}
 	}
 })
 
