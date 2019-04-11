@@ -1,0 +1,10 @@
+Para rodar a aplicação é preciso ter o Node Instalado.
+Acessar o diretório backend via console ou terminar, rodar os comandos
+npm install
+npm run dev, ou npm run production
+acessar o diretório vuejs com outra instancia do terminal e rodar os comandos
+npm install
+npm run dev
+
+a API fica disponivel na url "http://localhost:3003/api/knights"
+a Aplicação fica disponível na url "http://localhost:3000/"
