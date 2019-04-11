@@ -90,12 +90,11 @@ new Vue({
 			this.showGetKnight = false
 			this.knightList = []
 			vm = this
+			console.log(url+"?_id="+obj.id.value)
 			axios.get(url+"?_id="+obj.id.value).then(function(r){
 				vm.knightList = r.data
 			})
-			if(this.knightList.length > 0){
-				this.showKnights = true
-			}
+			this.showKnights = true
 			return false
 		}
 	}
