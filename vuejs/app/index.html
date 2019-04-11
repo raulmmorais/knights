@@ -2,7 +2,10 @@
 <html lang="pt-BR" ng-app="primeiraApp">
 <head>
     <meta charset="UTF-8">
-    <title>Knight App</title>
+	<title>Knight App</title>
+	<style>
+		td, th {border: solid 1px}
+	</style>
 </head>
 <body>
 	<div id="app">
@@ -14,34 +17,92 @@
 			<li><a href="#" v-on:click='getKnight()'>Knight</a></li>
 		</ul>
 		<div>
-			<template v-for="Knight in knightList">
+			<template v-if="showKnights">
 				<table>
 					<thead>
-						<th>
-							<td>Nome</td>
-							<td>Idade</td>
-							<td>Armas</td>
-							<td>Atributo</td>
-							<td>Ataque</td>
-							<td>Exp</td>
-						</th>
+						<tr>
+							<th>Nome</th>
+							<th>Idade</th>
+							<th>Armas</th>
+							<th>Atributo</th>
+							<th>Ataque</th>
+							<th>Exp</th>
+						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr v-for="Knight in knightList">
 							<td>{{Knight.name}}</td>
-							<td>Idade</td>
-							<td>{{Knight.weapons.lenght}}</td>
+							<td>{{getAge(Knight.birthday)}}</td>
+							<td>{{getWeapon(Knight.weapons)}}</td>
 							<td>{{Knight.keyAttribute}}</td>
-							<td>{{Ataque}}</td>
-							<td>{{Exp}}</td>
+							<td>{{getAttac(Knight.keyAttribute, Knight.weapons, Knight.attributes)}}</td>
+							<td>{{getExp(getAge(Knight.birthday))}}</td>
 						</tr>
 					</tbody>
 				</table>
 			</template>
-			<template v-for="hero in heroList">
-				<h3>{{hero.name}}</h3>
+			<template v-if="showHeroes">
+				<table>
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Idade</th>
+							<th>Armas</th>
+							<th>Atributo</th>
+							<th>Ataque</th>
+							<th>Exp</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="hero in heroList">
+							<td>{{hero.name}}</td>
+							<td>{{getAge(hero.birthday)}}</td>
+							<td>{{getWeapon(hero.weapons)}}</td>
+							<td>{{hero.keyAttribute}}</td>
+							<td>{{getAttac(hero.keyAttribute, hero.weapons, hero.attributes)}}</td>
+							<td>{{getExp(getAge(hero.birthday))}}</td>
+						</tr>
+					</tbody>
+				</table>
 			</template>
-			
+			<template v-if="newKnight">
+				<h2>New Knight</h2>
+				<table>
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Apelido</th>
+							<th>Nascimento</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="text"/></td>
+							<td><input type="text"/></td>
+							<td><input type="date"/></td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="button" value="Add" v-on:click='add()'/>
+			</template>
+			<template v-if="showGetKnight">
+					<h2>get Knight</h2>
+					<form id="formFindOne" v-on:submit='getOneKnight(document.getElementById("formFindOne"))'>
+						<table>
+							<thead>
+								<tr>
+									<th><label for="id">id</label></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><input type="text" name="id"/></td>
+								</tr>
+							</tbody>
+						</table>
+						<input type="submit" value="get"/>
+					</form>
+			</template>
 		</div>
 			
 	</div>
