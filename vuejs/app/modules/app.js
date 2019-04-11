@@ -9,7 +9,11 @@ new Vue({
 		newKnight: false,
 		showKnights: false,
 		showHeroes: false,
-		showGetKnight: false
+		showGetKnight: false,
+		showEdit: false,
+		idToEdit: "",
+		nameToEdit: "",
+		nicknameToEdit: ""
 	},
 	methods:{
 		listKnights(){
@@ -18,6 +22,7 @@ new Vue({
 			this.newKnight = false
 			this.showKnights = true
 			this.showGetKnight = false
+			this.showEdit= false
 			var vm = this
 			axios.get(url).then(function(r){
 				vm.knightList = r.data
@@ -30,6 +35,7 @@ new Vue({
 			this.newKnight = false
 			this.showKnights = false
 			this.showGetKnight = false
+			this.showEdit = false
 			var vm = this
 			axios.get(url).then(function(r){
 				r.data.forEach(function(i){
@@ -47,6 +53,7 @@ new Vue({
 			this.newKnight = true
 			this.showKnights = false
 			this.showGetKnight = false
+			this.showEdit = false
 			console.log("new knight add")
 		},
 		getKnight(){
@@ -54,6 +61,7 @@ new Vue({
 			this.newKnight = false
 			this.showKnights = false
 			this.showGetKnight = true
+			this.showEdit = false
 		},
 		getAge(birthday){
 			return calculaIdade(new Date(birthday), new Date())
@@ -77,17 +85,26 @@ new Vue({
 			console.log(weapons)
 			return weapons.length
 		},
-		add(){
+		addNewKnight(objForm){
 			this.showHeroes = false
 			this.newKnight = false
 			this.showKnights = false
 			this.showGetKnight = false
+			this.showEdit = false
+			knight = getNewKnight(objForm)
+			vm = this
+			axios.post(url, knight).then(function(){
+				console.log("new knight add")
+				vm.listKnights()
+			})
+			return false;
 		},
 		getOneKnight(obj){
 			this.showHeroes = false
 			this.newKnight = false
 			this.showKnights = false
 			this.showGetKnight = false
+			this.showEdit = false
 			this.knightList = []
 			vm = this
 			console.log(url+"?_id="+obj.id.value)
@@ -95,6 +112,45 @@ new Vue({
 				vm.knightList = r.data
 			})
 			this.showKnights = true
+			return false
+		},
+		deleteKnight(id){
+			vm = this
+			console.log(id)
+			urlDelete = url+"/"+id
+			axios.delete(urlDelete).then(function(){
+				vm.listKnights()
+			})
+		},
+		deleteHero(id){
+			vm = this
+			console.log(id)
+			urlDelete = url+"/"+id
+			axios.delete(urlDelete).then(function(){
+				vm.listHeroes()
+			})
+		},
+		editKnight(id, name, nickname){
+			this.showHeroes = false
+			this.newKnight = false
+			this.showKnights = false
+			this.showGetKnight = false
+			this.showEdit = true
+			console.log(name)
+			this.idToEdit = id
+			this.nameToEdit = name
+			this.nicknameToEdit = nickname
+		},
+		editAKnight(obj){
+			editUrl = url+"/"+obj.id.value
+			vm = this
+			knight = {
+				"name": obj.name.value || 'John Doe',
+				"nickname": obj.nickname.value || 'John'
+			}
+			axios.put(editUrl, knight).then(function(){
+				vm.listKnights()
+			})
 			return false
 		}
 	}
@@ -130,4 +186,38 @@ function mod(attr){
 		}
 	}
 	return res
+}
+function getNewKnight(obj){
+	newKnight = {
+		"name": obj.name.value || 'John Doe',
+        "nickname": obj.nickname.value || 'John',
+        "birthday": obj.birthday.value || '1970-01-01',
+		"weapons": [getDefaultWeapon()],
+		"attributes":[getAttributes()],
+		"keyAttribute": "strength"
+	}
+	return newKnight
+}
+function getDefaultWeapon(){
+	weapon = {
+		"name": "Knife",
+		"mod": getRandomValue(),
+		"attr": "first",
+		"equipped": true
+	}
+	return weapon
+}
+function getAttributes(){
+	attr = {
+		"strength": getRandomValue(),
+		"dexterity": getRandomValue(),
+		"constitution": getRandomValue(),
+		"intelligence": getRandomValue(),
+		"wisdom": getRandomValue(),
+		"charisma": getRandomValue()
+	}
+	return attr
+}
+function getRandomValue(){
+	return Math.floor(Math.random() * 20)
 }

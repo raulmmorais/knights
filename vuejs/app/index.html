@@ -14,10 +14,11 @@
 			<li><a href="#" v-on:click='listKnights()'>Knigts</a></li>
 			<li><a href="#" v-on:click='listHeroes()'>Heroes</a></li>
 			<li><a href="#" v-on:click='addKnight()'>Add Knight</a></li>
-			<li><a href="#" v-on:click='getKnight()'>Knight</a></li>
+			<li><a href="#" v-on:click='getKnight()'>Find a Knight</a></li>
 		</ul>
 		<div>
 			<template v-if="showKnights">
+				<h2>All Knights</h2>
 				<table>
 					<thead>
 						<tr>
@@ -27,6 +28,8 @@
 							<th>Atributo</th>
 							<th>Ataque</th>
 							<th>Exp</th>
+							<th>Edit</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -37,11 +40,14 @@
 							<td>{{Knight.keyAttribute}}</td>
 							<td>{{getAttac(Knight.keyAttribute, Knight.weapons, Knight.attributes)}}</td>
 							<td>{{getExp(getAge(Knight.birthday))}}</td>
+							<td><input type="button" value="Edit" v-on:click="editKnight(Knight._id, Knight.name, Knight.nickname)"/></td>
+							<td><input type="button" value="Delete" v-on:click="deleteKnight(Knight._id)"/></td>
 						</tr>
 					</tbody>
 				</table>
 			</template>
 			<template v-if="showHeroes">
+				<h2>All Heros</h2>
 				<table>
 					<thead>
 						<tr>
@@ -51,6 +57,7 @@
 							<th>Atributo</th>
 							<th>Ataque</th>
 							<th>Exp</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -61,29 +68,32 @@
 							<td>{{hero.keyAttribute}}</td>
 							<td>{{getAttac(hero.keyAttribute, hero.weapons, hero.attributes)}}</td>
 							<td>{{getExp(getAge(hero.birthday))}}</td>
+							<td><input type="button" value="Delete" v-on:click='deleteHero(hero._id)'/></td>
 						</tr>
 					</tbody>
 				</table>
 			</template>
 			<template v-if="newKnight">
 				<h2>New Knight</h2>
-				<table>
-					<thead>
-						<tr>
-							<th>Nome</th>
-							<th>Apelido</th>
-							<th>Nascimento</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><input type="text"/></td>
-							<td><input type="text"/></td>
-							<td><input type="date"/></td>
-						</tr>
-					</tbody>
-				</table>
-				<input type="button" value="Add" v-on:click='add()'/>
+				<form id="addKnightForm" v-on:submit='addNewKnight(document.getElementById("addKnightForm"))'>
+					<table>
+						<thead>
+							<tr>
+								<th>Nome</th>
+								<th>Apelido</th>
+								<th>Nascimento</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><input type="text" name="name"/></td>
+								<td><input type="text" name="nickname"/></td>
+								<td><input type="date"/ name="birthday"></td>
+							</tr>
+						</tbody>
+					</table>
+					<input type="submit" value="Add" />
+				</form>
 			</template>
 			<template v-if="showGetKnight">
 					<h2>get Knight</h2>
@@ -102,6 +112,29 @@
 						</table>
 						<input type="submit" value="get"/>
 					</form>
+			</template>
+			<template v-if="showEdit">
+				<h2>Edit a Knight</h2>
+				<form id="formEdit" v-on:submit='editAKnight(document.getElementById("formEdit"))'>
+					<table>
+						<thead>
+							<tr>
+								<th><label for="name">Name</label></th>
+								<th><label for="nickname">Nickname</label></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<input type="hidden" name="id"  v-model="idToEdit"/>
+									<input type="text" name="name" v-model="nameToEdit"/>
+								</td>
+								<td><input type="text" name="nickname" v-model="nicknameToEdit"/></td>
+							</tr>
+						</tbody>
+					</table>
+					<input type="submit" value="Edit"/>
+				</form>
 			</template>
 		</div>
 			
